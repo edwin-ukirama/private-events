@@ -1,0 +1,45 @@
+<%= render "layouts/navbar" %>
+<div class="container my-5">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex align-items-center justify-content-between">
+        <h2 class="card-title"><%= @event.name %></h2>
+
+        <% if @event.datetime.to_date.future? and user_signed_in? and @event.attendee_ids.exclude? current_user.id %>
+          <%= link_to "Attend Event", event_attend_path(@event.id), class:"btn btn-primary" %>
+        <% elsif @event.attendee_ids.include? current_user.id  %>
+          <%= link_to "Cancel Attendance", event_cancel_attend_path(@event.id), class:"btn btn-primary" %>
+        <% end %>
+      </div>
+      <dl class="row">
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9"><%= @event.description %></dd>
+
+        <dt class="col-sm-3">Where?</dt>
+        <dd class="col-sm-9"><%= @event.location %></dd>
+
+        <dt class="col-sm-3">When?</dt>
+        <dd class="col-sm-9"><%= @event.datetime.to_formatted_s(:long_ordinal) %></dd>
+
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4>
+        <% if @event.datetime.to_date.future? %>
+          Who will attend this event?
+        <% else %>
+          Who attended this event?
+        <% end %>
+      </h4>
+    </div>
+    <div class="card-body">
+      <% @event.attendees.each do |attendee| %>
+        <%= attendee.email %>
+      <% end %>
+    </div>
+  </div>
+</div>

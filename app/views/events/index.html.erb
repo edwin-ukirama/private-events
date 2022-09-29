@@ -1,0 +1,39 @@
+<%= render "layouts/navbar" %>
+
+<a href="<%= events_path('boo') %>"></a>
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <%= render "navs" %>
+
+    <% if user_signed_in? %>
+      <a href="<%= new_event_path %>" class="btn btn-primary">Create Event</a>
+    <% end %>
+  </div>
+  <div class="tab-content">
+    <div id="all-events" class="tab-pane fade show active" role="tabpanel" tabindex="0">
+      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
+        <% @events.each do |event| %>
+          <div class="col">
+            <%= render "event_card", event:event %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div id="future-events" class="tab-pane fade" role="tabpanel" tabindex="0">
+      <% @future_events.each do |event| %>
+        <div class="col">
+          <%= render "event_card", event:event %>
+        </div>
+      <% end %>
+    </div>
+    <div id="past-events" class="tab-pane fade" role="tabpanel" tabindex="0">
+      <% @past_events.each do |event| %>
+        <div class="col">
+          <%= render "event_card", event:event %>
+        </div>
+      <% end %>
+    </div>
+    <div id="attended-events" class="tab-pane fade" role="tabpanel" tabindex="0"></div>
+  </div>
+
+</div>
